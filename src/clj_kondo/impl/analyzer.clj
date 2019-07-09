@@ -272,7 +272,7 @@
         private? (or (= "defn-" call)
                      (:private var-meta))
         _ (when fn-name
-            (namespace/reg-var!
+           (namespace/reg-var!
              ctx ns-name fn-name expr
              (cond-> (meta name-node)
                macro? (assoc :macro true)

@@ -34,8 +34,9 @@
                              (or (when-let [v (get vars var-sym)]
                                    (when-not (:declared (meta v))
                                      ns-sym))
-                                 (when-let [qv (get (:qualify-var ns) var-sym)]
-                                   (:ns qv))
+                                 (when-let [[s qv] (find (:qualify-var ns) var-sym)]
+                                   (when-not (-> s meta :self-require?)
+                                     (:ns qv)))
                                  (let [core-ns (case lang
                                                  :clj 'clojure.core
                                                  :cljs 'cljs.core)]

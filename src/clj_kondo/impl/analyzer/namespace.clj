@@ -89,13 +89,14 @@
                 :renamed {}}]
           (if-let [child (first children)]
             (let [opt (fnext children)]
-              ;; (println "OPT" opt)
               (case child
                 (:refer :refer-macros)
                 (recur
                  (nnext children)
-                 (cond (and (not self-require?) (sequential? opt))
-                       (update m :referred into opt)
+                 (cond (sequential? opt)
+                       (update m :referred into
+                               (map #(with-meta %
+                                       {:self-require? self-require?}) opt))
                        (= :all opt)
                        (assoc m :referred-all true)
                        :else m))
